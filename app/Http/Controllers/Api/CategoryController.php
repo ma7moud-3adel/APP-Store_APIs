@@ -13,28 +13,32 @@ class CategoryController extends Controller
     {
         $cat = Category::all();
         if (count($cat) > 0) {
-            return ApiResponse::sendResponse(200, 'Products Retrieved Successfully', $cat);
+            return ApiResponse::sendResponse(200, 'Categories Retrieved Successfully', $cat);
         }
-        return ApiResponse::sendResponse(200, 'Products Not Found', []);
+        return ApiResponse::sendResponse(200, 'Not Found any Categories', []);
     }
 
     public function create(Request $request)
     {
+        $allCats = array("Milk", "Juice");
 
         request()->validate([
             'name' => ['required', 'min:3'],
             'description' => ['required'],
         ]);
-        $ct = Category::where('name', $request->input('name'))->get();
+        $cat = Category::where('name', $request->input('name'))->get();
 
-        if (count($ct) != 0) {
-            return ApiResponse::sendResponse(201, 'Category already exists', $ct);
+        if (in_array($cat, $allCats)) {
+            if ($cat) {
+                return ApiResponse::sendResponse(200, 'Category already exists', $cat);
+            }
+
+            $cat = Category::create([
+                'name' => $request->name,
+                'description' => $request->description,
+            ]);
+            return ApiResponse::sendResponse(201, 'Category Added Successfully', $cat);
         }
-
-        $cat = Category::create([
-            'name' => $request->name,
-            'description' => $request->description,
-        ]);
-        return ApiResponse::sendResponse(201, 'Category Added Successfully', $cat);
+        return ApiResponse::sendResponse(200, "Category Doesn't exists in Categories List", []);
     }
 }
