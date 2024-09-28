@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\ProductController;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Route as RoutingRoute;
@@ -28,4 +29,10 @@ Route::controller(ProductController::class)->group(function(){
     Route::delete('products/{id}','delete');
 
     Route::get('product_cat','search');
+});
+
+Route::controller(CategoryController::class)->group(function(){
+    Route::get('cats','show');
+    Route::post('cats','create');
+    Route::post('cats/{id}','update');
 });
