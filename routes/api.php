@@ -23,21 +23,23 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::controller(AuthController::class)->group(function(){
-    Route::post('register','register');
+Route::controller(AuthController::class)->group(function () {
+    Route::post('register', 'register');
+    Route::post('login', 'login');
+    Route::post('logout','logout')->middleware('auth:sanctum');
 });
 
-Route::controller(ProductController::class)->group(function(){
-    Route::get('products','show');
-    Route::post('products','create');
-    Route::post('products/{id}','update');
-    Route::delete('products/{id}','delete');
+Route::controller(ProductController::class)->group(function () {
+    Route::get('products', 'show');
+    Route::post('products', 'create');
+    Route::post('products/{id}', 'update');
+    Route::delete('products/{id}', 'delete');
 
-    Route::get('product_cat','search');
+    Route::get('product_cat', 'search');
 });
 
-Route::controller(CategoryController::class)->group(function(){
-    Route::get('cats','show');
-    Route::post('cats','create');
-    Route::post('cats/{id}','update');
+Route::controller(CategoryController::class)->group(function () {
+    Route::get('cats', 'show');
+    Route::post('cats', 'create');
+    Route::post('cats/{id}', 'update');
 });
