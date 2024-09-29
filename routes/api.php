@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\ProductController;
 use Illuminate\Http\Request;
@@ -20,6 +21,10 @@ use Symfony\Component\Routing\Route as ComponentRoutingRoute;
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
+});
+
+Route::controller(AuthController::class)->group(function(){
+    Route::post('register','register');
 });
 
 Route::controller(ProductController::class)->group(function(){
