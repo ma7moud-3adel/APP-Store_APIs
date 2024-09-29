@@ -26,10 +26,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::controller(AuthController::class)->group(function () {
     Route::post('register', 'register');
     Route::post('login', 'login');
-    Route::post('logout','logout')->middleware('auth:sanctum');
+    Route::post('logout', 'logout')->middleware('auth:sanctum');
 });
 
-Route::controller(ProductController::class)->group(function () {
+Route::controller(ProductController::class)->middleware('auth:sanctum')->group(function () {
     Route::get('products', 'show');
     Route::post('products', 'create');
     Route::post('products/{id}', 'update');
@@ -38,7 +38,7 @@ Route::controller(ProductController::class)->group(function () {
     Route::get('product_cat', 'search');
 });
 
-Route::controller(CategoryController::class)->group(function () {
+Route::controller(CategoryController::class)->middleware('auth:sanctum')->group(function () {
     Route::get('cats', 'show');
     Route::post('cats', 'create');
     Route::post('cats/{id}', 'update');
